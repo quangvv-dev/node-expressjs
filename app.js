@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const hbs = require('express-handlebars');
+let ejs = require('ejs');
+const expressLayouts = require('express-ejs-layouts');
 const database = require('./config/sequelize')
 
 var indexRouter = require('./routes/index');
@@ -13,12 +14,10 @@ var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
 // view engine setup
-app.engine('.hbs', hbs.engine({
-    defaultLayout: 'main.hbs',
-    partialsDir: path.join(__dirname, 'views', 'layouts')
-}));
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', '.hbs');
+app.set('views', 'views');
+app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', 'main');
 
 app.use(logger('dev'));
 app.use(express.json());
